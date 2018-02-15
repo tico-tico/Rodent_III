@@ -33,7 +33,7 @@ build_script:
   - for %%i in (*.exe) do 7z a -sdel -bso0 %APPVEYOR_BUILD_FOLDER%\"%%~ni.zip" "%%i"
   # android build
   - android_build_nta.cmd
-  - 7z a -sdel -bso0 rodentiii_arm7a_neon_nta.7z rodentiii_arm7a_neon_nta
+  - 7z a -sdel -bso0 %APPVEYOR_BUILD_FOLDER%\rodentiii_arm7a_neon_nta.7z rodentiii_arm7a_neon_nta
 
 after_build:
   # clean cache and logs

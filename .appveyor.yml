@@ -1,5 +1,5 @@
 environment:
-  APPVEYOR_CACHE_ENTRY_ZIP_ARGS: -t7z -m0=lzma2 -mx=3
+  APPVEYOR_CACHE_ENTRY_ZIP_ARGS: -t7z -m0=lzma2 -mx=5
 
 image: Visual Studio 2017
 
@@ -10,11 +10,14 @@ install:
   - if not exist c:\tools\msys64 cinst msys2
 
 before_build:
+  # updating mingw
   - set PATH=c:\tools\msys64\usr\bin;%PATH%
   - pacman -Rdd catgets libcatgets --noconfirm & exit 0
   - pacman -Syuu --noconfirm
   - pacman -Syuu --noconfirm --needed mingw-w64-i686-gcc mingw-w64-x86_64-gcc
   - cd %APPVEYOR_BUILD_FOLDER%\sources
+  # installing android tools if needed
+  - android_build_nta.cmd install
 
 build_script:
   - c:\tools\msys64\msys2_shell.cmd -mingw32 -defterm -no-start -here buildme_msys2.sh pentium4 core2 nehalem sandybridge haswell skylake znver1 pgo
@@ -28,6 +31,9 @@ build_script:
   - dir *.exe
   # pack exe's to zip's and delete exe's
   - for %%i in (*.exe) do 7z a -sdel -bso0 %APPVEYOR_BUILD_FOLDER%\"%%~ni.zip" "%%i"
+  # android build
+  - android_build_nta.cmd
+  - 7z a -sdel -bso0 rodentiii_arm7a_neon_nta.7z rodentiii_arm7a_neon_nta
 
 after_build:
   # clean cache and logs
@@ -45,3 +51,4 @@ artifacts:
 
 cache:
   - c:\tools\msys64
+  - c:\tools\android_tools

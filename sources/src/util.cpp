@@ -23,7 +23,9 @@ If not, see <http://www.gnu.org/licenses/>.
 #else
     #include <unistd.h>
     #include <sys/time.h>
+  #ifndef __ANDROID__ // android doesn't have `wordexp`
     #include <wordexp.h>
+  #endif
 #endif
 
 #include "rodent.h"
@@ -241,6 +243,7 @@ void PrintOverrides() {
         printf("info string override for personalities path: '%s'\n", ptr);
 }
 bool ChDirEnv(const char *env_name) {
+#ifndef __ANDROID__ // android doesn't have `wordexp`
     char *env_path;
     env_path = getenv(env_name);
     if (env_path == NULL) return false;
@@ -264,18 +267,21 @@ bool ChDirEnv(const char *env_name) {
     wordfree(&p);
 
     return result;
+#else
+    return false;
+#endif
 }
 // constexpr for detecting relative paths
 constexpr bool relative = _BOOKSPATH[0] != '/' || _PERSONALITIESPATH[0] != '/';
 bool ChDir(const char *new_path) {
     if (relative) {
         char exe_path[1024];
-
         #if defined (__APPLE__)
             #error something should be done here, look for _NSGetExecutablePath(path, &size)
         #endif
         // getting the current executable location ...
-        readlink("/proc/self/exe", exe_path, sizeof(exe_path)); *(strrchr(exe_path, '/') + 1) = '\0';
+        ZEROARRAY(exe_path); // readlink() does not append a null byte to buf
+        readlink("/proc/self/exe", exe_path, sizeof(exe_path) - 1); *(strrchr(exe_path, '/') + 1) = '\0';
 
         printf_debug("go to '%s'\n", exe_path);
         chdir(exe_path); // go to the exe location, it's for relative paths

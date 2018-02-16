@@ -52,4 +52,4 @@ artifacts:
 
 cache:
   - c:\tools\msys64
-  - c:\tools\android_tools -> android_build_nta.cmd
+  - c:\tools\android_tools -> sources/android_build_nta.cmd

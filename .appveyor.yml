@@ -34,6 +34,7 @@ build_script:
   # android build
   - android_build_nta.cmd
   - 7z a -sdel -bso0 %APPVEYOR_BUILD_FOLDER%\rodentiii_arm7a_neon_nta.7z rodentiii_arm7a_neon_nta
+  - 7z a -sdel -bso0 %APPVEYOR_BUILD_FOLDER%\rodentiii_arm8a_64_neon_nta.7z rodentiii_arm8a_64_neon_nta
 
 after_build:
   # clean cache and logs
@@ -51,4 +52,4 @@ artifacts:
 
 cache:
   - c:\tools\msys64
-  - c:\tools\android_tools
+  - c:\tools\android_tools -> android_build_nta.cmd

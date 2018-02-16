@@ -20,7 +20,9 @@ echo Unpacking Android NDK...
 
 echo Installing Android tools...
 
-python %NDK%\build\tools\make_standalone_toolchain.py --arch arm --api 19 --stl libc++ --install-dir %ANDROID_TOOLS_DIR%
+python %NDK%\build\tools\make_standalone_toolchain.py --arch arm   --api 19 --stl libc++ --install-dir %ANDROID_TOOLS_DIR%\32
+
+python %NDK%\build\tools\make_standalone_toolchain.py --arch arm64 --api 21 --stl libc++ --install-dir %ANDROID_TOOLS_DIR%\64
 
 goto :eof
 
@@ -28,12 +30,21 @@ goto :eof
 
 echo Building for Android...
 
-set PATH=%ANDROID_TOOLS_DIR%\bin;%PATH%
-
 copy /b src\*.cpp src\combined_a.cpp > nul
 
-rem call clang++ -Ofast -s -std=c++14 -march=armv7-a -mfpu=neon -fPIE -fPIC -fno-rtti -fno-stack-protector -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-ident -DUSE_THREADS -DUSEGEN -DNDEBUG -D_FORTIFY_SOURCE=0 -DBOOKSPATH=/sdcard/RodentIII/books/ -DPERSONALITIESPATH=/sdcard/RodentIII/personalities/ src\combined_a.cpp -static-libstdc++ -Wl,--fix-cortex-a8,-pie -o rodentiii_arm7a_neon_nta
+
+set PATH=%ANDROID_TOOLS_DIR%\32\bin;%PATH%
 
 call clang -Ofast -s -std=c++14 -march=armv7-a -mfpu=neon -fPIE -fPIC -fno-rtti -fno-stack-protector -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-ident -lm -DNO_THREADS -DUSEGEN -DNDEBUG -D_FORTIFY_SOURCE=0 -DBOOKSPATH=/sdcard/RodentIII/books/ -DPERSONALITIESPATH=/sdcard/RodentIII/personalities/ src\combined_a.cpp -Wl,--fix-cortex-a8,-pie -o rodentiii_arm7a_neon_nta
 
+
+set PATH=%ANDROID_TOOLS_DIR%\64\bin;%PATH%
+
+call clang -Ofast -s -std=c++14 -march=armv8-a -mfpu=neon -fPIE -fPIC -fno-rtti -fno-stack-protector -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-ident -lm -DNO_THREADS -DUSEGEN -DNDEBUG -D_FORTIFY_SOURCE=0 -DBOOKSPATH=/sdcard/RodentIII/books/ -DPERSONALITIESPATH=/sdcard/RodentIII/personalities/ src\combined_a.cpp -Wl,-pie -o rodentiii_arm8a_64_neon_nta
+
+
 del /q src\combined_a.cpp
+
+
+rem this thing is crashing
+rem call clang++ -Ofast -s -std=c++14 -march=armv7-a -mfpu=neon -fPIE -fPIC -fno-rtti -fno-stack-protector -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-ident -DUSE_THREADS -DUSEGEN -DNDEBUG -D_FORTIFY_SOURCE=0 -DBOOKSPATH=/sdcard/RodentIII/books/ -DPERSONALITIESPATH=/sdcard/RodentIII/personalities/ src\combined_a.cpp -static-libstdc++ -Wl,--fix-cortex-a8,-pie -o rodentiii_arm7a_neon_nta

@@ -2,8 +2,8 @@
 
 setlocal
 
-set NDK=android-ndk-r16b
-set NDKURL=https://dl.google.com/android/repository/android-ndk-r16b-windows-x86_64.zip
+set NDK=android-ndk-r17
+set NDKURL=https://dl.google.com/android/repository/android-ndk-r17-windows-x86_64.zip
 set ANDROID_TOOLS_DIR=c:\tools\android_tools
 
 if not "%1"=="install" goto :build

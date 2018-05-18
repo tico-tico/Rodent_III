@@ -35,12 +35,12 @@ copy /b src\*.cpp src\combined_a.cpp > nul
 
 set PATH=%ANDROID_TOOLS_DIR%\32\bin;%PATH%
 
-call clang -Ofast -s -std=c++14 -march=armv7-a -mfpu=neon -fPIE -fPIC -fno-rtti -fno-stack-protector -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-ident -lm -DNO_THREADS -DUSEGEN -DNDEBUG -D_FORTIFY_SOURCE=0 -DBOOKSPATH=/sdcard/RodentIII/books/ -DPERSONALITIESPATH=/sdcard/RodentIII/personalities/ src\combined_a.cpp -Wl,--fix-cortex-a8,-pie -o rodentiii_arm7a_neon_nta
+call clang -Ofast -s -std=c++14 -march=armv7-a -mfpu=neon -fPIE -fPIC -fno-rtti -fno-stack-protector -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-ident -lm -D__ANDROID_API__=19 -DNO_THREADS -DUSEGEN -DNDEBUG -D_FORTIFY_SOURCE=0 -DBOOKSPATH=/sdcard/RodentIII/books/ -DPERSONALITIESPATH=/sdcard/RodentIII/personalities/ src\combined_a.cpp -Wl,--fix-cortex-a8,-pie -o rodentiii_arm7a_neon_nta
 
 
 set PATH=%ANDROID_TOOLS_DIR%\64\bin;%PATH%
 
-call clang -Ofast -s -std=c++14 -march=armv8-a -mfpu=neon -fPIE -fPIC -fno-rtti -fno-stack-protector -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-ident -lm -DNO_THREADS -DUSEGEN -DNDEBUG -D_FORTIFY_SOURCE=0 -DBOOKSPATH=/sdcard/RodentIII/books/ -DPERSONALITIESPATH=/sdcard/RodentIII/personalities/ src\combined_a.cpp -Wl,-pie -o rodentiii_arm8a_64_neon_nta
+call clang -Ofast -s -std=c++14 -march=armv8-a -mfpu=neon -fPIE -fPIC -fno-rtti -fno-stack-protector -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-ident -lm -D__ANDROID_API__=21 -DNO_THREADS -DUSEGEN -DNDEBUG -D_FORTIFY_SOURCE=0 -DBOOKSPATH=/sdcard/RodentIII/books/ -DPERSONALITIESPATH=/sdcard/RodentIII/personalities/ src\combined_a.cpp -Wl,-pie -o rodentiii_arm8a_64_neon_nta
 
 
 del /q src\combined_a.cpp

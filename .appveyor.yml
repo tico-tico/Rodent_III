@@ -22,6 +22,10 @@ build_script:
   - dir *.exe
   # pack exe's to zip's and delete exe's
   - for %%i in (*.exe) do 7z a -sdel -bso0 %APPVEYOR_BUILD_FOLDER%\"%%~ni.zip" "%%i"
+  # android build
+  - android_build_nta.cmd
+  - 7z a -sdel -bso0 %APPVEYOR_BUILD_FOLDER%\rodentiii_arm7a_neon_nta.7z rodentiii_arm7a_neon_nta
+  - 7z a -sdel -bso0 %APPVEYOR_BUILD_FOLDER%\rodentiii_arm8a_64_neon_nta.7z rodentiii_arm8a_64_neon_nta
 
 test: off
 deploy: off

@@ -1028,7 +1028,9 @@ extern const int ph_value[7];
 #include "chessheapclass.h"
 extern ChessHeapClass Trans;
 
-extern int tDepth[MAX_THREADS];
+#ifdef USE_THREADS
+    extern int tDepth[MAX_THREADS];
+#endif
 
 // TODO: changing tt date of used entries (thx Kestutis)
 // TODO: IID at cut nodes

@@ -25,7 +25,9 @@ const int ph_value[7] = {   0,   1,   1,   2,    4,  0,   0 };
 U64 POS::msZobPiece[12][64];
 U64 POS::msZobCastle[16];
 U64 POS::msZobEp[8];
-int tDepth[MAX_THREADS];
+#ifdef USE_THREADS
+    int tDepth[MAX_THREADS];
+#endif
 int cEngine::msMoveTime;
 int cEngine::msMoveNodes;
 int cEngine::msSearchDepth;
